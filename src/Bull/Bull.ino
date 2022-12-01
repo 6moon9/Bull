@@ -23,30 +23,34 @@ void setup ()
   // Serial setup //
   {
     Serial.begin(9600);
-    Serial.println("Serial communication's on...");
     Serial1.begin(9600);
+    Serial.println("Serial communication's on...");
+    Serial.println("Bluetooth communication's on...");
   }
 }
 
 void loop ()
 {
-  if (bluetooth.receive())
+  // Receive data //
   {
-    if (bluetooth.lastError == DeserializationError::Ok)
+    /*if (bluetooth.receive())
     {
-      report.ok++;
+      if (bluetooth.lastError == DeserializationError::Ok)
+      {
+        report.ok++;
+      }
+      else
+      {
+        report.inv++;
+        bluetooth.empty();
+      }
     }
     else
     {
-      report.inv++;
-      bluetooth.empty();
+      report.ntr++;
     }
+    report.print();*/
   }
-  else
-  {
-    report.ntr++;
-  }
-  report.print();
   // Fetch data to json and send it //
   {
     bluetooth.json["switcher"] = switcher.getValue();
