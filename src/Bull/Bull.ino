@@ -4,7 +4,8 @@
 #include <Led.h>
 #include <Report.h>
 
-#define loopTime 80
+#define loopTime 40
+#define debugMode true // Pass to false for production
 
 //                    RX  TX
 SoftwareSerial Serial1(2, 3);
@@ -16,8 +17,7 @@ Button switcher(A6);
 Led led1(11);
 Led led2(12);
 Led builtin(LED_BUILTIN);
-//            Serial   debugMode   every 5 seconds
-Report report(&Serial, true, 5 * (1000 / loopTime));
+Report report(&Serial, debugMode, 100);
 
 void setup ()
 {
