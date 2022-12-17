@@ -33,8 +33,8 @@ void setup ()
 void loop ()
 {
   // Receive data //
-  {
-    /*if (bluetooth.receive())
+  /*{
+    if (bluetooth.receive())
       {
       if (bluetooth.lastError == DeserializationError::Ok)
       {
@@ -50,12 +50,12 @@ void loop ()
       {
       report.ntr++;
       }
-      report.print();*/
-  }
+      report.print();
+  }*/
   // Fetch data to json and send it //
   {
     bluetooth.json["switcher"] = switcher.getValue();
-    //bluetooth.json["keybull"] = keybull.getValue();
+    //bluetooth.json["keybull"] = keybull.getValue(); // Uncomment when keypad is plugged in
     {
       {
         bluetooth.json["joysticks"]["left"]["x"] = leftJoystick.x.getValue();
@@ -69,9 +69,7 @@ void loop ()
       }
     }
     bluetooth.send();
-    //serializeJsonPretty(bluetooth.json, Serial);
-    //Serial.println();
-    //Serial.println();
+    //serializeJsonPretty(bluetooth.json, Serial);  // This line is for debug only. Due to bug with the arduino nano, you can uncomment this line and it will work.
   }
   delay(loopTime);
 }
