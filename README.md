@@ -35,13 +35,13 @@ The [src code](./src/) consists of an arduino sketch containing a `.ino` file:
 ### Dependecies
 The INO file depends of the following list of libraries:
 * [Bluetooth](https://github.com/IngeniumTeam/Bluetooth)
-  * [Arduino/SoftwareSerial](https://docs.arduino.cc/learn/built-in-libraries/software-serial): This library is built into the Arduino IDE
-  * [bblanchon/ArduinoJson](https://github.com/bblanchon/ArduinoJson)
+    * [Arduino/SoftwareSerial](https://docs.arduino.cc/learn/built-in-libraries/software-serial): This library is built into the Arduino IDE
+    * [bblanchon/ArduinoJson](https://github.com/bblanchon/ArduinoJson)
 * [Keybull](https://github.com/IngeniumTeam/Keybull)
-  * [Chris--A/Keypad](https://github.com/Chris--A/Keypad)
+    * [Chris--A/Keypad](https://github.com/Chris--A/Keypad)
 * [Joystick](https://github.com/IngeniumTeam/Joystick)
-  * [Potentiometer](https://github.com/IngeniumTeam/Potentiometer)
-  * [Button](https://github.com/IngeniumTeam/Button)
+    * [Potentiometer](https://github.com/IngeniumTeam/Potentiometer)
+    * [Button](https://github.com/IngeniumTeam/Button)
 * [Led](https://github.com/IngeniumTeam/Led)
 * [Report](https://github.com/IngeniumTeam/Report)
 
@@ -51,5 +51,13 @@ The INO file depends of the following list of libraries:
 * Three LEDs
 * Switch
 * ON/OFF switch
-* 4x3 matrix keypad
+* 4x3 matrix keypad :
+
+|   |   |   |
+|:-:|:-:|:-:|
+| 1 | 2 | 3 |
+| 4 | 5 | 6 |
+| 7 | 8 | 9 |
+| # | 0 | * |
+
 * HC-05 bluetooth module
