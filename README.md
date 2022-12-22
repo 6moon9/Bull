@@ -53,7 +53,7 @@ The INO file depends of the following list of libraries:
 * ON/OFF switch
 * 4x3 matrix keypad :
 
-|   |   |   |
+|<!---->|<!---->|<!---->|
 |:-:|:-:|:-:|
 | 1 | 2 | 3 |
 | 4 | 5 | 6 |
