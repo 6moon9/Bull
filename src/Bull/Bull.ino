@@ -1,23 +1,30 @@
 #include <Bluetooth.h>
-#include <Keybull.h>
 #include <Joystick.h>
 #include <Led.h>
 #include <Report.h>
+#include <Keypad.h>
 
-#define loopTime 40
+#define loopTime 20
 #define debugMode true // Pass to false for production
 
 //                    RX  TX
 SoftwareSerial Serial1(2, 3);
 Bluetooth bluetooth(&Serial1);
-Keybull keybull(4);
-Joystick leftJoystick(A0, A1, 0);
-Joystick rightJoystick(A2, A3, 0, true);
+Joystick leftJoystick(A0, A1, A2);
+Joystick rightJoystick(A3, A4, A5, true);
 Button switcher(A6);
 Led led1(11);
 Led led2(12);
 Led builtin(LED_BUILTIN);
-Report report(&Serial, debugMode, 100);
+//Report report(&Serial, debugMode, 100);
+
+int fromPin = 4;
+char keys[4][3] = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } };
+byte rowPins[4] = { 5, 10, 9, 7 };
+byte colPins[3] = { 6, 4, 8 };
+byte rows = 4;
+byte cols = 3;
+Keypad keypad(makeKeymap(keys), rowPins, colPins, rows, cols);
 
 void setup ()
 {
@@ -54,8 +61,8 @@ void loop ()
   }*/
   // Fetch data to json and send it //
   {
-    bluetooth.json["switcher"] = switcher.getValue();
-    //bluetooth.json["keybull"] = keybull.getValue(); // Uncomment when keypad is plugged in
+    bluetooth.json["switch"] = switcher.getValue();
+    bluetooth.json["keypad"] = keypad.getKey();
     {
       {
         bluetooth.json["joysticks"]["left"]["x"] = leftJoystick.x.getValue();
