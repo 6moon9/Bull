@@ -12,8 +12,8 @@ The [src code](./src/) consists of an arduino sketch containing a `.ino` file:
 * The sending data are encoded in a json format with the [ArduinoJson](https://github.com/bblanchon/ArduinoJson) library following the next template:
 ```json
 {
-    "keypad": 3,
     "switch": true,
+    "keypad": 3,
     "joysticks": {
         "left": {
             "x": 512,
@@ -37,13 +37,12 @@ The INO file depends of the following list of libraries:
 * [Bluetooth](https://github.com/IngeniumTeam/Bluetooth)
     * [Arduino/SoftwareSerial](https://docs.arduino.cc/learn/built-in-libraries/software-serial): This library is built into the Arduino IDE
     * [bblanchon/ArduinoJson](https://github.com/bblanchon/ArduinoJson)
-* [Keybull](https://github.com/IngeniumTeam/Keybull)
-    * [Chris--A/Keypad](https://github.com/Chris--A/Keypad)
 * [Joystick](https://github.com/IngeniumTeam/Joystick)
     * [Potentiometer](https://github.com/IngeniumTeam/Potentiometer)
     * [Button](https://github.com/IngeniumTeam/Button)
 * [Led](https://github.com/IngeniumTeam/Led)
 * [Report](https://github.com/IngeniumTeam/Report)
+* [Chris--A/Keypad](https://github.com/Chris--A/Keypad)
 
 ## Hardware
 * Arduino Nano
