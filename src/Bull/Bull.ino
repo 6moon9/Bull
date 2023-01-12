@@ -4,7 +4,7 @@
 #include <Report.h>
 #include <Keypad.h>
 
-#define loopTime 20
+#define loopTime 10
 #define debugMode true // Pass to false for production
 
 //                    RX  TX
@@ -42,24 +42,24 @@ void loop ()
   // Receive data //
   /*{
     if (bluetooth.receive())
-      {
+    {
       if (bluetooth.lastError == DeserializationError::Ok)
       {
-        report.ok++;
+        //report.ok++;
       }
       else
       {
-        report.inv++;
+        //report.inv++;
         bluetooth.empty();
       }
-      }
-      else
-      {
-      report.ntr++;
-      }
-      report.print();
-  }*/
-  // Fetch data to json and send it //
+    }
+    else
+    {
+      //report.ntr++;
+    }
+    //report.print();
+    }*/
+  // Fetch data to json and send it via bluetooth //
   {
     bluetooth.json["switch"] = switcher.getValue();
     bluetooth.json["keypad"] = keypad.getKey();
@@ -76,7 +76,7 @@ void loop ()
       }
     }
     bluetooth.send();
-    serializeJsonPretty(bluetooth.json, Serial);  // This line is for debug only. Due to bug with the arduino nano, you can uncomment this line and it will work.
+    //serializeJsonPretty(bluetooth.json, Serial);  // This line is for debug only. Due to bug with the arduino nano, you can uncomment this line and it will work.
   }
   delay(loopTime);
 }
