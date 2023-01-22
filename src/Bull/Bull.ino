@@ -5,13 +5,13 @@
 #include <Keypad.h>
 
 #define loopTime 10
-#define debugMode true // Pass to false for production
+#define debugMode false // Pass to false for production
 
 //                    RX  TX
 SoftwareSerial Serial1(2, 3);
 Bluetooth bluetooth(&Serial1);
-Joystick leftJoystick(A0, A1, A2);
-Joystick rightJoystick(A3, A4, A5, true);
+Joystick leftJoystick(A0, A1, A2, false, false, 512, 512, 50, 50);
+Joystick rightJoystick(A3, A4, A5, false, false, 512, 512, 50, 50);
 Button switcher(A6);
 Led led1(11);
 Led led2(12);
@@ -76,7 +76,9 @@ void loop ()
       }
     }
     bluetooth.send();
-    //serializeJsonPretty(bluetooth.json, Serial);  // This line is for debug only. Due to bug with the arduino nano, you can uncomment this line and it will work.
+#if debugMode
+    serializeJsonPretty(bluetooth.json, Serial);
+#endif
   }
   delay(loopTime);
 }
