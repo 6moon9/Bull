@@ -32,8 +32,11 @@ void setup ()
   {
     Serial.begin(9600);
     Serial1.begin(9600);
+#if debugMode
     Serial.println("Serial communication's on...");
     Serial.println("Bluetooth communication's on...");
+    Serial.println("Debug mode's on...");
+#endif
   }
 }
 
