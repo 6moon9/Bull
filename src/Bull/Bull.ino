@@ -4,8 +4,8 @@
 #include <Report.h>
 #include <Keypad.h>
 
-#define loopTime 10
-#define debugMode false // Pass to false for production
+#define loopTime 20
+#define debugMode false
 
 //                    RX  TX
 SoftwareSerial Serial1(2, 3);
@@ -64,7 +64,8 @@ void loop ()
     }*/
   // Fetch data to json and send it via bluetooth //
   {
-    bluetooth.json["switch"] = switcher.getValue();
+    bluetooth.json["switch"] = switcher.getAnalogValue() > 512;
+    //bluetooth.json["switch"] = (switcher.getValue() / 1023 + 1) / 2;
     bluetooth.json["keypad"] = keypad.getKey();
     {
       {
