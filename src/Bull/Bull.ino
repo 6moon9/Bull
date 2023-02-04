@@ -1,7 +1,7 @@
 #include <Bluetooth.h>
 #include <Joystick.h>
 #include <Led.h>
-#include <Report.h>
+//#include <Report.h>
 #include <Keypad.h>
 
 #define loopTime 20
@@ -10,12 +10,12 @@
 //                    RX  TX
 SoftwareSerial Serial1(2, 3);
 Bluetooth bluetooth(&Serial1);
-Joystick leftJoystick(A0, A1, A2, false, false, 512, 512, 50, 50);
-Joystick rightJoystick(A3, A4, A5, false, false, 512, 512, 50, 50);
+Joystick leftJoystick(A1, A0, A2, false, true, 512, 512, 50, 50);
+Joystick rightJoystick(A4, A3, A5, false, true, 512, 512, 50, 50);
 Button switcher(A6);
-Led led1(11);
-Led led2(12);
-Led builtin(LED_BUILTIN);
+Led blueLed(11);
+Led whiteLed(12);
+Led redLed(13);
 //Report report(&Serial, debugMode, 100);
 
 int fromPin = 4;
@@ -37,6 +37,8 @@ void setup ()
     Serial.println("Bluetooth communication's on...");
     Serial.println("Debug mode's on...");
 #endif
+    blueLed.off();
+    redLed.on();
   }
 }
 
@@ -65,7 +67,6 @@ void loop ()
   // Fetch data to json and send it via bluetooth //
   {
     bluetooth.json["switch"] = switcher.getAnalogValue() > 512;
-    //bluetooth.json["switch"] = (switcher.getValue() / 1023 + 1) / 2;
     bluetooth.json["keypad"] = keypad.getKey();
     {
       {
@@ -80,6 +81,7 @@ void loop ()
       }
     }
     bluetooth.send();
+    blueLed.on();
 #if debugMode
     serializeJsonPretty(bluetooth.json, Serial);
 #endif
