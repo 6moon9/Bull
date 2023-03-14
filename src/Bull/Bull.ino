@@ -26,6 +26,8 @@ byte rows = 4;
 byte cols = 3;
 Keypad keypad(makeKeymap(keys), rowPins, colPins, rows, cols);
 
+int estimation = -1;
+      
 void setup ()
 {
   // Serial setup //
@@ -68,6 +70,20 @@ void loop ()
   {
     bluetooth.json["switch"] = switcher.getAnalogValue() > 512;
     bluetooth.json["keypad"] = keypad.getKey();
+    if (bluetooth.json["keypad"] == 12) {
+      bluetooth.json["keypad"] = 0;
+      int key = keypad.getKey();
+      estimation = 0;
+      while (key != 12 && ((int)log10(estimation) + 1) < 3)
+      {
+        if (key >= 1 && key <= 9)
+        {
+          estimation = estimation * 10 + key;
+        }
+        key = keypad.getKey();
+      }
+    }
+    bluetooth.json["estimation"] = estimation;
     {
       {
         bluetooth.json["joysticks"]["left"]["x"] = leftJoystick.x.getValue();
