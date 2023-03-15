@@ -13,8 +13,8 @@ Bluetooth bluetooth(&Serial1);
 Joystick leftJoystick(A1, A0, A2, false, true, 512, 512, 50, 50);
 Joystick rightJoystick(A4, A3, A5, false, true, 512, 512, 50, 50);
 Button switcher(A6);
-Led blueLed(11);
-Led whiteLed(12);
+Led blueLed(12);
+Led whiteLed(11);
 Led redLed(13);
 //Report report(&Serial, debugMode, 100);
 
@@ -27,7 +27,7 @@ byte cols = 3;
 Keypad keypad(makeKeymap(keys), rowPins, colPins, rows, cols);
 
 int estimation = -1;
-      
+
 void setup ()
 {
   // Serial setup //
@@ -40,7 +40,8 @@ void setup ()
     Serial.println("Debug mode's on...");
 #endif
     blueLed.off();
-    redLed.on();
+    whiteLed.off();
+    redLed.off();
   }
 }
 
@@ -69,19 +70,25 @@ void loop ()
   // Fetch data to json and send it via bluetooth //
   {
     bluetooth.json["switch"] = switcher.getAnalogValue() > 512;
+    if (bluetooth.json["switch"].as<bool>()) {
+      whiteLed.on();
+    }
+    else {
+      whiteLed.off();
+    }
     bluetooth.json["keypad"] = keypad.getKey();
     if (bluetooth.json["keypad"] == 12) {
+      redLed.on();
       bluetooth.json["keypad"] = 0;
       int key = keypad.getKey();
       estimation = 0;
-      while (key != 12 && ((int)log10(estimation) + 1) < 3)
-      {
-        if (key >= 1 && key <= 9)
-        {
+      while (key != 12 && ((int)log10(estimation) + 1) < 3) {
+        if (key >= 1 && key <= 9) {
           estimation = estimation * 10 + key;
         }
         key = keypad.getKey();
       }
+      redLed.off();
     }
     bluetooth.json["estimation"] = estimation;
     {
@@ -97,10 +104,10 @@ void loop ()
       }
     }
     bluetooth.send();
-    blueLed.on();
 #if debugMode
     serializeJsonPretty(bluetooth.json, Serial);
 #endif
+    blueLed.on();
   }
   delay(loopTime);
 }
