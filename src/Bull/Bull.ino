@@ -86,6 +86,9 @@ void loop ()
         if (key >= 1 && key <= 9) {
           estimation = estimation * 10 + key;
         }
+        if (key == 11) {
+          estimation *= 10;
+        }
         key = keypad.getKey();
       }
       redLed.off();
