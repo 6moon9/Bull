@@ -5,13 +5,13 @@
 #include <Keypad.h>
 
 #define loopTime 20
-#define debugMode false
+#define debugMode true
 
 //                    RX  TX
 SoftwareSerial Serial1(2, 3);
 Bluetooth bluetooth(&Serial1);
-Joystick leftJoystick(A1, A0, A2, false, true, 512, 512, 50, 50);
-Joystick rightJoystick(A4, A3, A5, false, true, 512, 512, 50, 50);
+Joystick leftJoystick(A1, A0, A2, true, false, 512, 512, 50, 50);
+Joystick rightJoystick(A4, A3, A5, true, false, 512, 512, 50, 50);
 Button switcher(A6);
 Led blueLed(12);
 Led whiteLed(11);
