@@ -1,22 +1,37 @@
+#include <SoftwareSerial.h>
 #include <Bluetooth.h>
 #include <Joystick.h>
 #include <Led.h>
 //#include <Report.h>
 #include <Keypad.h>
 
-#define loopTime 20
-#define debugMode true
+#define LOOP_TIME 20
+#define DEBUG true
+
+#define SWITCH 0
+#define KEYPAD 1
+#define ESTIMATION 2
+#define JOYSTICK_LEFT_X 3
+#define JOYSTICK_LEFT_Y 4
+#define JOYSTICK_LEFT_CLCK 5
+#define JOYSTICK_RIGHT_X 6
+#define JOYSTICK_RIGHT_Y 7
+#define JOYSTICK_RIGHT_CLCK 8
+
+#define NUM_VALUES 9
 
 //                    RX  TX
-SoftwareSerial Serial1(2, 3);
-Bluetooth bluetooth(&Serial1);
-Joystick leftJoystick(A1, A0, A2, true, false, 512, 512, 50, 50);
-Joystick rightJoystick(A4, A3, A5, true, false, 512, 512, 50, 50);
+// SoftwareSerial Serial1(2, 3);
+
+int sizes[NUM_VALUES] = { 1, 4, 8, 9, 9, 1, 9, 9, 1 };
+Bluetooth bluetooth(&Serial1, sizes, NUM_VALUES);
+Joystick leftJoystick(A1, A0, A2, true, false, 512, 512, 50, 50, 0, 512);
+Joystick rightJoystick(A4, A3, A5, true, false, 512, 512, 50, 50, 0, 512);
 Button switcher(A6);
 Led blueLed(12);
 Led whiteLed(11);
 Led redLed(13);
-//Report report(&Serial, debugMode, 100);
+//Report report(&Serial, DEBUG, 100);
 
 int fromPin = 4;
 char keys[4][3] = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } };
@@ -32,9 +47,9 @@ void setup ()
 {
   // Serial setup //
   {
-    Serial.begin(9600);
     Serial1.begin(9600);
-#if debugMode
+    Serial.begin(9600);
+#if DEBUG
     Serial.println("Serial communication's on...");
     Serial.println("Bluetooth communication's on...");
     Serial.println("Debug mode's on...");
@@ -69,17 +84,17 @@ void loop ()
     }*/
   // Fetch data to json and send it via bluetooth //
   {
-    bluetooth.json["switch"] = switcher.getAnalogValue() > 512;
-    if (bluetooth.json["switch"].as<bool>()) {
+    bluetooth.message.set(SWITCH, switcher.getAnalogValue() > 512);
+    if (bluetooth.message.get(SWITCH) == 1) {
       whiteLed.on();
     }
     else {
       whiteLed.off();
     }
-    bluetooth.json["keypad"] = keypad.getKey();
-    if (bluetooth.json["keypad"] == 12) {
+    bluetooth.message.set(KEYPAD, keypad.getKey());
+    if (bluetooth.message.get(KEYPAD) == 12) {
       redLed.on();
-      bluetooth.json["keypad"] = 0;
+      bluetooth.message.set(KEYPAD, 0);
       int key = keypad.getKey();
       estimation = 0;
       while (key != 12 && ((int)log10(estimation) + 1) < 3) {
@@ -93,24 +108,21 @@ void loop ()
       }
       redLed.off();
     }
-    bluetooth.json["estimation"] = estimation;
+    bluetooth.message.set(ESTIMATION, estimation);
     {
       {
-        bluetooth.json["joysticks"]["left"]["x"] = leftJoystick.x.getValue();
-        bluetooth.json["joysticks"]["left"]["y"] = leftJoystick.y.getValue();
-        bluetooth.json["joysticks"]["left"]["clck"] = leftJoystick.clck.getValue();
+        bluetooth.message.set(JOYSTICK_LEFT_X, leftJoystick.x.getValue());
+        bluetooth.message.set(JOYSTICK_LEFT_Y, leftJoystick.y.getValue());
+        bluetooth.message.set(JOYSTICK_LEFT_CLCK, leftJoystick.clck.getValue());
       }
       {
-        bluetooth.json["joysticks"]["right"]["x"] = rightJoystick.x.getValue();
-        bluetooth.json["joysticks"]["right"]["y"] = rightJoystick.y.getValue();
-        bluetooth.json["joysticks"]["right"]["clck"] = rightJoystick.clck.getValue();
+        bluetooth.message.set(JOYSTICK_RIGHT_X, rightJoystick.x.getValue());
+        bluetooth.message.set(JOYSTICK_RIGHT_Y, rightJoystick.y.getValue());
+        bluetooth.message.set(JOYSTICK_RIGHT_CLCK, rightJoystick.clck.getValue());
       }
     }
     bluetooth.send();
-#if debugMode
-    serializeJsonPretty(bluetooth.json, Serial);
-#endif
     blueLed.on();
   }
-  delay(loopTime);
+  // delay(LOOP_TIME);
 }
