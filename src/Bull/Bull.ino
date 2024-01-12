@@ -5,7 +5,7 @@
 #include <Keypad.h>
 
 #define loopTime 20
-#define debugMode true
+#define debugMode false
 
 //                    RX  TX
 SoftwareSerial Serial1(2, 3);
