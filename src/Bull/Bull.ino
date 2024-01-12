@@ -2,11 +2,9 @@
 #include <Bluetooth.h>
 #include <Joystick.h>
 #include <Led.h>
-//#include <Report.h>
 #include <Keypad.h>
 
-#define LOOP_TIME 20
-#define DEBUG true
+#define DEBUG false
 
 #define SWITCH 0
 #define KEYPAD 1
@@ -24,14 +22,13 @@
 SoftwareSerial Serial1(2, 3);
 
 int sizes[NUM_VALUES] = { 1, 4, 8, 9, 9, 1, 9, 9, 1 };
-Bluetooth bluetooth(&Serial1, sizes, NUM_VALUES);
+Bluetooth bluetooth(&Serial1, sizes, NUM_VALUES, '@');
 Joystick leftJoystick(A1, A0, A2, true, false, 512, 512, 50, 50, 0, 512);
 Joystick rightJoystick(A4, A3, A5, true, false, 512, 512, 50, 50, 0, 512);
 Button switcher(A6);
 Led blueLed(12);
 Led whiteLed(11);
 Led redLed(13);
-//Report report(&Serial, DEBUG, 100);
 
 int fromPin = 4;
 char keys[4][3] = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } };
@@ -62,26 +59,6 @@ void setup ()
 
 void loop ()
 {
-  // Receive data //
-  /*{
-    if (bluetooth.receive())
-    {
-      if (bluetooth.lastError == DeserializationError::Ok)
-      {
-        //report.ok++;
-      }
-      else
-      {
-        //report.inv++;
-        bluetooth.empty();
-      }
-    }
-    else
-    {
-      //report.ntr++;
-    }
-    //report.print();
-    }*/
   // Fetch data to json and send it via bluetooth //
   {
     bluetooth.message.set(SWITCH, switcher.getAnalogValue() > 512);
