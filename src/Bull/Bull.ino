@@ -1,7 +1,6 @@
 #include <Bluetooth.h>
 #include <Joystick.h>
 #include <Led.h>
-//#include <Report.h>
 #include <Keypad.h>
 
 #define loopTime 20
@@ -16,7 +15,6 @@ Button switcher(A6);
 Led blueLed(12);
 Led whiteLed(11);
 Led redLed(13);
-//Report report(&Serial, debugMode, 100);
 
 int fromPin = 4;
 char keys[4][3] = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 }, { 10, 11, 12 } };
@@ -47,26 +45,6 @@ void setup ()
 
 void loop ()
 {
-  // Receive data //
-  /*{
-    if (bluetooth.receive())
-    {
-      if (bluetooth.lastError == DeserializationError::Ok)
-      {
-        //report.ok++;
-      }
-      else
-      {
-        //report.inv++;
-        bluetooth.empty();
-      }
-    }
-    else
-    {
-      //report.ntr++;
-    }
-    //report.print();
-    }*/
   // Fetch data to json and send it via bluetooth //
   {
     bluetooth.json["switch"] = switcher.getAnalogValue() > 512;
