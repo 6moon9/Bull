@@ -4,10 +4,10 @@
 #include <Keypad.h>
 
 #define loopTime 20
-#define debugMode false
+#define DEBUG false
 
 //                    RX  TX
-SoftwareSerial Serial1(2, 3);
+SoftwareSerial Serial1(2, 4);
 Bluetooth bluetooth(&Serial1);
 Joystick leftJoystick(A1, A0, A2, true, false, 512, 512, 50, 50);
 Joystick rightJoystick(A4, A3, A5, true, false, 512, 512, 50, 50);
@@ -32,7 +32,7 @@ void setup ()
   {
     Serial.begin(9600);
     Serial1.begin(9600);
-#if debugMode
+#if DEBUG
     Serial.println("Serial communication's on...");
     Serial.println("Bluetooth communication's on...");
     Serial.println("Debug mode's on...");
@@ -54,8 +54,9 @@ void loop ()
     else {
       whiteLed.off();
     }
-    bluetooth.json["keypad"] = keypad.getKey();
-    if (bluetooth.json["keypad"] == 12) {
+    const int keypadValue = keypad.getKey();
+    bluetooth.json["keypad"] = keypadValue;
+    if (keypadValue == 12) {
       redLed.on();
       bluetooth.json["keypad"] = 0;
       int key = keypad.getKey();
@@ -63,6 +64,7 @@ void loop ()
       while (key != 12 && ((int)log10(estimation) + 1) < 3) {
         if (key >= 1 && key <= 9) {
           estimation = estimation * 10 + key;
+
         }
         if (key == 11) {
           estimation *= 10;
@@ -85,7 +87,7 @@ void loop ()
       }
     }
     bluetooth.send();
-#if debugMode
+#if DEBUG
     serializeJsonPretty(bluetooth.json, Serial);
 #endif
     blueLed.on();
