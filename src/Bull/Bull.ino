@@ -22,9 +22,9 @@
 SoftwareSerial Serial1(2, 3);
 
 int sizes[NUM_VALUES] = { 1, 4, 8, 9, 9, 1, 9, 9, 1 };
-Bluetooth bluetooth(&Serial1, sizes, NUM_VALUES, '@');
-Joystick leftJoystick(A1, A0, A2, true, false, 512, 512, 50, 50, 0, 512);
-Joystick rightJoystick(A4, A3, A5, true, false, 512, 512, 50, 50, 0, 512);
+Bluetooth bluetooth(&Serial1, sizes, NUM_VALUES, '.');
+Joystick leftJoystick(A1, A0, A2, true, false, 512, 512, 50, 50, 0, 511);
+Joystick rightJoystick(A4, A3, A5, true, false, 512, 512, 50, 50, 0, 511);
 Button switcher(A6);
 Led blueLed(12);
 Led whiteLed(11);
