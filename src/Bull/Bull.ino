@@ -5,6 +5,7 @@
 #include <Keypad.h>
 
 #define DEBUG false
+#define LOOP_TIME 20
 
 #define SWITCH 0
 #define KEYPAD 1
@@ -101,5 +102,5 @@ void loop ()
     bluetooth.send();
     blueLed.on();
   }
-  // delay(LOOP_TIME);
+  delay(LOOP_TIME);
 }
