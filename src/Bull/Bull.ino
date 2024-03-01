@@ -4,7 +4,7 @@
 #include <Led.h>
 #include <Keypad.h>
 
-#define LOOP_TIME 20
+#define LOOP_TIME 0
 #define DEBUG false
 
 #define SWITCH 0
@@ -106,15 +106,14 @@ void loop ()
   //Serial.println(millis() - start);
   delay(LOOP_TIME);
 #if DEBUG
-  Serial.print(bluetooth.message.get(SWITCH)); Serial.print(" ");
-  Serial.print(bluetooth.message.get(KEYPAD)); Serial.print(" ");
-  Serial.print(bluetooth.message.get(ESTIMATION)); Serial.print(" ");
-  Serial.print(bluetooth.message.get(JOYSTICK_LEFT_X)); Serial.print(" ");
-  Serial.print(bluetooth.message.get(JOYSTICK_LEFT_Y)); Serial.print(" ");
-  Serial.print(bluetooth.message.get(JOYSTICK_LEFT_CLCK)); Serial.print("   ");
-  Serial.print(bluetooth.message.get(JOYSTICK_RIGHT_X)); Serial.print(" ");
-  Serial.print(bluetooth.message.get(JOYSTICK_RIGHT_Y)); Serial.print(" ");
-  Serial.print(bluetooth.message.get(JOYSTICK_RIGHT_CLCK)); Serial.print(" ");
-  Serial.println();
+  Serial.print(bluetooth.message.get(SWITCH)); Serial.print(" | ");
+  Serial.print(bluetooth.message.get(KEYPAD)); Serial.print(" | ");
+  Serial.print(bluetooth.message.get(ESTIMATION)); Serial.print(" | ");
+  Serial.print(bluetooth.message.get(JOYSTICK_LEFT_X)); Serial.print(" | ");
+  Serial.print(bluetooth.message.get(JOYSTICK_LEFT_Y)); Serial.print(" | ");
+  Serial.print(bluetooth.message.get(JOYSTICK_LEFT_CLCK)); Serial.print("  |  ");
+  Serial.print(bluetooth.message.get(JOYSTICK_RIGHT_X)); Serial.print(" | ");
+  Serial.print(bluetooth.message.get(JOYSTICK_RIGHT_Y)); Serial.print(" | ");
+  Serial.print(bluetooth.message.get(JOYSTICK_RIGHT_CLCK)); Serial.println();
 #endif
 }
