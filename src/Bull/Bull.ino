@@ -45,9 +45,9 @@ void setup ()
 {
   // Serial setup //
   {
-    Serial.begin(9600);
     Serial1.begin(9600);
 #if DEBUG
+    Serial.begin(9600);
     Serial.println("Serial communication's on...");
     Serial.println("Bluetooth communication's on...");
     Serial.println("Debug mode's on...");
@@ -92,7 +92,7 @@ void loop ()
   {
     {
       bluetooth.message.set(JOYSTICK_LEFT_X, leftJoystick.x.getValue());
-      bluetooth.message.set(JOYSTICK_LEFT_Y, leftJoystick.y.getValue());
+      bluetooth.message.set(JOYSTICK_LEFT_Y, constrain(leftJoystick.y.getValue(), 1, 511));
       bluetooth.message.set(JOYSTICK_LEFT_CLCK, leftJoystick.clck.getValue());
     }
     {
